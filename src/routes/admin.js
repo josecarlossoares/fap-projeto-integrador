@@ -75,9 +75,9 @@ router.post('/registro', (req, res) => {
 })
 
 //Editar informações de contas de usuário
-router.put('/editarusuario', (req, res) = {
+// router.put('/editarusuario', (req, res) = {
 
-})
+// })
 
 //Consultar informações de usuarios, historico
 
