@@ -1,4 +1,4 @@
-#Rota main
+#Rotas main
 GET http://localhost:8081/admin/
 ###
 GET http://localhost:8081/usuarios/

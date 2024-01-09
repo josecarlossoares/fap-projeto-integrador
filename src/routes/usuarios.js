@@ -42,16 +42,18 @@ router.get('/projetos', async (req, res) => {
     const listaProjetos = await Projeto.find()
     
     res.send(listaProjetos)
+    //Total de projetos
+    //indicadores para projetos em andamento e concluidos
 })
-//Total de projetos
-//indicadores para projetos em andamento e concluidos
+
 
 //Lista de projetos em atraso
 router.get('/projetosematraso', (req, res) => {
 
+    //total de projetos em atraso
+    //total de projetos
 })
-//total de projetos em atraso
-//total de projetos
+
 
 
 //Projeto especifico
@@ -78,8 +80,8 @@ router.get('/projetos/:id', async (req, res) => {
 
 
 //Rotas de consulta
-//Consultar entregas realizadas dentro do prazo
-// Pesquisa de projetos com filtro de período, nome e tipo de projeto
+    //Consultar entregas realizadas dentro do prazo
+    // Pesquisa de projetos com filtro de período, nome e tipo de projeto
 
 
 module.exports = router;
