@@ -1,0 +1,45 @@
+#Rota main
+GET http://localhost:8081/admin/
+###
+GET http://localhost:8081/usuarios/
+###
+
+//Rotas de login
+GET http://localhost:8081/usuarios/login
+###
+
+POST http://localhost:8081/usuarios/login
+Content-Type: application/json
+
+{
+    "emailUser": "novoadmin@gmail.com",
+    "passUser": "12345678"
+}
+###
+
+//Rota listagem de projetos
+GET http://localhost:8081/usuarios/projetos
+###
+
+#Rota de consulta de projeto especifico
+GET http://localhost:8081/usuarios/projetos/834171
+###
+
+#Rotas de cadastro de novos  usuario
+GET http://localhost:8081/admin/registro
+###
+
+POST http://localhost:8081/admin/registro
+Content-Type: application/json
+
+{
+    "nomeUser": "admin",
+    "tipoUser": "admin",
+    "cargoUser": "diretor",
+    "statusUser": "ativo",
+    "emailUser": "novoadmin@gmail.com",
+    "passUser": "12345678",
+    "registroUser": "se registrou hj"
+}
+###
+
