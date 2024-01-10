@@ -12,7 +12,7 @@ POST http://localhost:8081/usuarios/login
 Content-Type: application/json
 
 {
-    "emailUser": "novoadmin@gmail.com",
+    "emailUser": "admin@gmail.com",
     "passUser": "12345678"
 }
 ###
@@ -33,13 +33,29 @@ POST http://localhost:8081/admin/registro
 Content-Type: application/json
 
 {
-    "nomeUser": "admin",
+    "cpfUser": "2",
+    "nomeUser": "jose",
     "tipoUser": "admin",
-    "cargoUser": "diretor",
+    "cargoUser": "dev",
     "statusUser": "ativo",
-    "emailUser": "novoadmin@gmail.com",
+    "emailUser": "jose@gmail.com",
     "passUser": "12345678",
     "registroUser": "se registrou hj"
 }
 ###
 
+#Rota de alteração de dados de usuario
+PUT http://localhost:8081/admin/editarusuario/1
+Content-Type: application/json
+
+{
+    "cpfUser": "1",
+    "nomeUser": "administrador",
+    "tipoUser": "admin",
+    "cargoUser": "diretor",
+    "statusUser": "ativo",
+    "emailUser": "admin@gmail.com",
+    "passUser": "12345678",
+    "registroUser": "se registrou hj"
+}
+###

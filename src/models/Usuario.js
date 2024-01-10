@@ -3,6 +3,13 @@ const Schema = mongoose.Schema
 
 const Usuario = new Schema({
 
+        _id: {
+          type: Number,
+        },
+        cpfUser: {
+          type: Number,
+          unique: true
+        },
         nomeUser: {
           type: String,
           required: true,

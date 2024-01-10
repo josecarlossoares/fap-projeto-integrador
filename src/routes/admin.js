@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Usuario  = require('../models/Usuario')
+const Projeto  = require('../models/Projeto')
 const bcrypt = require('bcryptjs')
 
 //Main
@@ -20,6 +21,9 @@ router.post('/registro', (req, res) => {
 
     if(!req.body.nomeUser || req.body.nomeUser == undefined || req.body.nomeUser == null){
         erros.push({erro: 'nome inválido!'})
+    }
+    if(!req.body.cpfUser || req.body.cpfUser == undefined || req.body.cpfUser == null){
+        erros.push({erro: 'cpf inválido!'})
     }
     if(!req.body.cargoUser || req.body.cargoUser == undefined || req.body.cargoUser == null){
         erros.push({erro: 'cargo inválido!'})
@@ -42,6 +46,8 @@ router.post('/registro', (req, res) => {
                 return res.send('Já existe alguem cadastrado com esse email.')
             }else{
                 const novoUsuario = new Usuario({
+                    _id: req.body.cpfUser,
+                    cpfUser: req.body.cpfUser,
                     nomeUser: req.body.nomeUser,
                     tipoUser: req.body.tipoUser,
                     cargoUser: req.body.cargoUser,
@@ -64,9 +70,9 @@ router.post('/registro', (req, res) => {
                         console.log('Erro: ', error);
                         res.send('Erro ao cadastrar usuário');
                     }
-                };
+                }
                 
-                generateHash();
+                generateHash()
             }
 
         })
@@ -75,9 +81,64 @@ router.post('/registro', (req, res) => {
 })
 
 //Editar informações de contas de usuário
-// router.put('/editarusuario', (req, res) = {
+router.put('/editarusuario/:id',  async (req, res) => {  
+    try {
+        let erros = [];
 
-// })
+        if(!req.body.nomeUser || req.body.nomeUser == undefined || req.body.nomeUser == null){
+            erros.push({erro: 'nome inválido!'})
+        }
+        if(!req.body.cpfUser || req.body.cpfUser == undefined || req.body.cpfUser == null){
+            erros.push({erro: 'cpf inválido!'})
+        }
+        if(!req.body.cargoUser || req.body.cargoUser == undefined || req.body.cargoUser == null){
+            erros.push({erro: 'cargo inválido!'})
+        }
+        if(!req.body.emailUser || req.body.emailUser == undefined || req.body.emailUser == null){
+            erros.push({erro: 'email inválido!'})
+        }
+        if(!req.body.passUser || req.body.passUser == undefined || req.body.passUser == null){
+            erros.push({erro: 'senha inválido!'})
+        }
+        if(req.body.passUser.length < 8){
+            erros.push({erro: 'senha muito curta'})
+        }
+
+        if(erros.length > 0){
+            res.send('Os dados inseridos apresentaram inconsistencia. Por favor, refaça o cadastro')
+        }else{
+            const id = parseInt(req.params.id);
+
+            const novosDadosUsuario = new Usuario({
+                _id: req.bodycpfUser,
+                cpfUser: req.bodycpfUser,
+                nomeUser: req.body.nomeUser,
+                tipoUser: req.body.tipoUser,
+                cargoUser: req.body.cargoUser,
+                statusUser: req.body.statusUser,
+                emailUser: req.body.emailUser,
+                passUser: req.body.passUser,
+                registroUser: req.body.registroUser
+            })
+
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(novosDadosUsuario.passUser, salt);
+                
+            novosDadosUsuario.passUser = hash;
+    
+            await Usuario.findByIdAndUpdate(id, novosDadosUsuario, { new: true }).then((u) => {
+                if(u){
+                    console.log('Dados de usuario atualizados');
+                    res.send(novosDadosUsuario);                                
+                }
+            })
+        }  
+     
+    } catch (error) {
+        res.status(500).send('Erro ao efetuar alterações: ', error);
+    }
+
+})
 
 //Consultar informações de usuarios, historico
 

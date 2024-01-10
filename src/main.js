@@ -41,7 +41,8 @@ const omie = require('./utils/omie')
 
     //Mongoose
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb+srv://api-mern:3qhu1wSeF52E5CLZ@cluster0.lfgjxim.mongodb.net/?retryWrites=true&w=majority').then(() => {
+    // mongodb+srv://api-mern:3qhu1wSeF52E5CLZ@cluster0.lfgjxim.mongodb.net/?retryWrites=true&w=majority
+    mongoose.connect('mongodb://localhost/projeto-integrador').then(() => {
         console.log('conectado ao mongodb!');
     }).catch((err) => {
         console.log('erro: ' + err);
