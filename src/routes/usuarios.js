@@ -58,14 +58,14 @@ router.get('/projetos', async (req, res) => {
     
             }
     
-            if(projeto.projectStatus == 1){
-                projeto.projectStatus = 'Projeto em andamento'
+            if(projeto.statusProjeto == 1){
+                projeto.statusProjeto = 'Projeto em andamento'
             }
-            if(projeto.projectStatus == 2){
-                projeto.projectStatus = 'Projeto concluído'
+            if(projeto.statusProjeto == 2){
+                projeto.statusProjeto = 'Projeto concluído'
             }
-            if(projeto.projectStatus == 3){
-                projeto.projectStatus = 'Projeto arquivado'
+            if(projeto.statusProjeto == 3){
+                projeto.statusProjeto = 'Projeto arquivado'
             }
     
             listaComIndicadores.push(projeto);
