@@ -54,7 +54,8 @@ router.get('/projetos', async (req, res) => {
                 idProjeto: element.projectId,
                 statusProjeto: element.projectStatus,
                 notas: element.notes,
-                eFaturavel: element.isBillable
+                eFaturavel: element.isBillable,
+                dataOrcamento: element.budgetAppliedDate
     
             }
     
@@ -107,12 +108,13 @@ router.get('/projetos/:id', async (req, res) => {
             statusProjeto: projeto.projectStatus,
             notas: projeto.notes,
             eFaturavel: projeto.isBillable,
-            fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget)
+            fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget),
+            dataOrcamento: projeto.budgetAppliedDate
 
         }
         res.status(200).send(item);
     } catch (error) {
-        res.status(500).send('Erro ao buscar projeto');
+        res.status(500).send('Erro ao buscar projeto. ', error);
     }
 
     //fator de lucratividade do projeto, impacto na margem de lucratividade caso EM ATRASO
