@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
     res.redirect('/usuarios/')
 })
 
+//Login
+router.get('/login', (req, res) =>{
+    res.redirect('/usuarios/login')
+})
+
 //Rotas de administrador
 router.get('/registro', (req, res) => {
     res.send('tela de  cadastro')

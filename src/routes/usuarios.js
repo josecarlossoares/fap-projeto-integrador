@@ -5,6 +5,7 @@ const passport = require('passport')
 const  bcrypt = require('bcryptjs')
 const Projeto = require('../models/Projeto')
 const Usuario = require('../models/Usuario')
+const Indicadores = require('../utils/indicadores')
 
 //Main
 router.get('/', (req, res) => {
@@ -17,13 +18,18 @@ router.get('/login', (req, res) =>{
 })
 
 router.post('/login', (req, res, next) =>{
-    passport.authenticate('local', {
-        usernameField: req.body.emailUser,
-        password: req.body.passUser,
-        successRedirect: "/projetos",
-        failureRedirect: "/login",
-        failureFlash: true
-    })(req, res, next)
+    try{
+        passport.authenticate('local', {
+            usernameField: req.body.emailUser,
+            password: req.body.passUser,
+            successRedirect: "/projetos",
+            failureRedirect: "/login",
+            failureFlash: true
+        })(req, res, next)
+    }catch(err){
+        console.log('Erro: ', err);
+    }
+
 })
 
 //Logout
@@ -38,12 +44,45 @@ router.get('/logout', (req, res, next) =>{
 
 //Todos os projetos
 router.get('/projetos', async (req, res) => {
-
-    const listaProjetos = await Projeto.find()
+    try{
+        const listaProjetos = await Projeto.find()
+        let listaComIndicadores = []
     
-    res.send(listaProjetos)
-    //Total de projetos
-    //indicadores para projetos em andamento e concluidos
+        listaProjetos.forEach((element) => {
+            const projeto = {
+                nomeProjeto: element.projectName,
+                idProjeto: element.projectId,
+                statusProjeto: element.projectStatus,
+                notas: element.notes,
+                eFaturavel: element.isBillable
+    
+            }
+    
+            if(projeto.projectStatus == 1){
+                projeto.projectStatus = 'Projeto em andamento'
+            }
+            if(projeto.projectStatus == 2){
+                projeto.projectStatus = 'Projeto concluído'
+            }
+            if(projeto.projectStatus == 3){
+                projeto.projectStatus = 'Projeto arquivado'
+            }
+    
+            listaComIndicadores.push(projeto);
+        })
+    
+        //Total de projetos
+        //indicadores para projetos em andamento e concluidos
+        const dados = {
+            totalProjetos: listaComIndicadores.length,
+            lista: listaComIndicadores
+        }
+        
+        res.send(dados); 
+    }catch(err){
+        console.log('Erro: ', err);
+    }
+ 
 })
 
 
@@ -62,13 +101,21 @@ router.get('/projetos/:id', async (req, res) => {
     
     try {
         const projeto = await Projeto.findOne({_id: id});
+        const item = {
+            nomeProjeto: projeto.projectName,
+            idProjeto: projeto.projectId,
+            statusProjeto: projeto.projectStatus,
+            notas: projeto.notes,
+            eFaturavel: projeto.isBillable,
+            fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget)
 
-        res.status(200).send(projeto);
+        }
+        res.status(200).send(item);
     } catch (error) {
         res.status(500).send('Erro ao buscar projeto');
     }
 
-    //fator de lucratividade do projeto, impacto na margem de luucratividade caso EM ATRASO
+    //fator de lucratividade do projeto, impacto na margem de lucratividade caso EM ATRASO
     //consumo de tempo e custo em relação ao orçamento
     //percentual de consumo do prazo
     //percentual de consumo do prazo (dias orçados vs. dias percorridos)
