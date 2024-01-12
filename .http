@@ -17,6 +17,9 @@ Content-Type: application/json
 }
 ###
 
+GET http://localhost:8081/usuarios/logout
+###
+
 //Rota listagem de projetos
 GET http://localhost:8081/usuarios/projetos
 ###

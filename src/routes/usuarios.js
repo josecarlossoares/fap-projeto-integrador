@@ -36,7 +36,7 @@ router.get('/logout', (req, res, next) =>{
         if (err) {
             return next(err);
         }
-        res.status(200).redirect('/');
+        res.status(200).redirect('/usuarios/login');
     });
 })
 
@@ -52,8 +52,7 @@ router.get('/projetos', async (req, res) => {
                 idProjeto: element.projectId,
                 statusProjeto: element.projectStatus,
                 notas: element.notes,
-                eFaturavel: element.isBillable,
-                // dataOrcamento: element.budgetAppliedDate
+                eFaturavel: element.isBillable
     
             }
     
@@ -129,7 +128,8 @@ router.get('/projetos/:id', async (req, res) => {
     
     //percentual de consumo do prazo (dias orçados vs. dias percorridos)
     //Percentual de horas orçadas x horas consumidas
-    //tipo de projeto, escopo ou alocação
+    
+    //tipo de projeto, escopo ou alocação, integração com a Omie
 })
 
 

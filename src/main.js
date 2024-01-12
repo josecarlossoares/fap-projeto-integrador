@@ -32,7 +32,7 @@ const omie = require('./utils/omie')
         res.locals.success_msg = req.flash('success_msg')
         res.locals.error_msg  = req.flash('error_msg')
         res.locals.error = req.flash('Error')
-        res.locals.user = req.user || null 
+        res.locals.user = req.usuario || null 
         next()
     })
     //Bodyy Parser
@@ -59,6 +59,7 @@ app.use('/usuarios', usuarios)
 tmetric.projetosImport()
 //chamada da function de interação com o omie
 // omie.omieImports()
+
 //Outros
 const port = 8081;
 
