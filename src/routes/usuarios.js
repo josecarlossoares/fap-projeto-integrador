@@ -20,8 +20,6 @@ router.get('/login', (req, res) =>{
 router.post('/login', (req, res, next) =>{
     try{
         passport.authenticate('local', {
-            usernameField: req.body.emailUser,
-            password: req.body.passUser,
             successRedirect: "/projetos",
             failureRedirect: "/login",
             failureFlash: true
@@ -98,10 +96,9 @@ router.get('/projetosematraso', (req, res) => {
 
 //Projeto especifico
 router.get('/projetos/:id', async (req, res) => {
-    const id = parseInt(req.params.id);
-    
+     
     try {
-
+        const id = parseInt(req.params.id);
         const projeto = await Projeto.findOne({_id: id});
 
         const item = {
@@ -114,6 +111,17 @@ router.get('/projetos/:id', async (req, res) => {
             fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget),//fator de lucratividade do projeto
             percentualConsumoOrcamento: Indicadores.percentualConsumoOrcamento(projeto.spentBudget, projeto.totalBudget)//consumo de custo em relação ao orçamento
         }
+
+        if(item.statusProjeto == 1){
+            item.statusProjeto = 'Projeto em andamento'
+        }
+        if(item.statusProjeto == 2){
+            item.statusProjeto = 'Projeto concluído'
+        }
+        if(item.statusProjeto == 3){
+            item.statusProjeto = 'Projeto arquivado'
+        }
+
         res.status(200).send(item);
     } catch (error) {
         res.status(500).send('Erro ao buscar projeto. ', error);

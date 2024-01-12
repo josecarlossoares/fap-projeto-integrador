@@ -23,7 +23,14 @@ module.exports = {
 
         const percentualConsumoTempo = (tempoGasto / prazoTotal) * 100;
         return percentualConsumoTempo.toFixed(2);
-    }
+    },
     //Percentual de horas orçadas x horas consumidas
-    //tipo de projeto, escopo ou alocação
+    percentualConsumoHoras: function (horasGastas, horasTotais){
+        if (horasTotais === 0) {
+            return 0;
+        }
+
+        const percentualConsumoTempo = (horasGastas / prazoTotal) * 100;
+        return percentualConsumoTempo.toFixed(2);
+    }
 }
