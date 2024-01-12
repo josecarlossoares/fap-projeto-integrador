@@ -79,15 +79,12 @@ router.get('/projetos', async (req, res) => {
  
 })
 
-
 //Lista de projetos em atraso
 router.get('/projetosematraso', (req, res) => {
 
     //total de projetos em atraso
     //total de projetos
 })
-
-
 
 //Projeto especifico
 router.get('/projetos/:id', async (req, res) => {
@@ -120,18 +117,14 @@ router.get('/projetos/:id', async (req, res) => {
         res.status(200).send(item);
     } catch (error) {
         res.status(500).send('Erro ao buscar projeto. ', error);
-    }
-    
+    }   
     //percentual de consumo do prazo (dias orçados vs. dias percorridos)
     //Percentual de horas orçadas x horas consumidas
-
     //tipo de projeto, escopo ou alocação, integração com a Omie
 })
-
 
 //Rotas de consulta
     //Consultar entregas realizadas dentro do prazo
     // Pesquisa de projetos com filtro de período, nome e tipo de projeto
-
 
 module.exports = router;
