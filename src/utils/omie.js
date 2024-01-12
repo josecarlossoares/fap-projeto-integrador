@@ -1,4 +1,5 @@
 module.exports = {
+    //Consumindo api da Omie
     omieImports: async function(){
         const omieAPIURL = 'https://app.omie.com.br/api/v1/geral/projetos/';
         const appKey = '38333295000';

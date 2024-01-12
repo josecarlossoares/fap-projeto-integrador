@@ -1,11 +1,10 @@
+//Importando modulos
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const Usuario  = require('../models/Usuario')
-const Projeto  = require('../models/Projeto')
 const bcrypt = require('bcryptjs')
 
-//Main
+//Rota principal
 router.get('/', (req, res) => {
     res.redirect('/usuarios/')
 })
@@ -17,17 +16,19 @@ router.get('/login', (req, res) =>{
 
 //Rotas de administrador
 router.get('/registro', (req, res) => {
-    res.send('tela de  cadastro')
+    res.send('tela de cadastro')
 })
 //Cadastrar novos usuarios
 router.post('/registro', (req, res) => {
-
     let erros = [];
-
+    //Validando integridade dos campos
     if(!req.body.nomeUser || req.body.nomeUser == undefined || req.body.nomeUser == null){
         erros.push({erro: 'nome inválido!'})
     }
     if(!req.body.cpfUser || req.body.cpfUser == undefined || req.body.cpfUser == null){
+        erros.push({erro: 'cpf inválido!'})
+    }
+    if(req.body.cpfUser.length < 11 || req.body.cpfUser.length > 11){
         erros.push({erro: 'cpf inválido!'})
     }
     if(!req.body.cargoUser || req.body.cargoUser == undefined || req.body.cargoUser == null){
@@ -46,6 +47,7 @@ router.post('/registro', (req, res) => {
     if(erros.length > 0){
         res.send('Os dados inseridos apresentaram inconsistencia. Por favor, refaça o cadastro')
     }else{
+        //verificando a existencia no banco
         Usuario.findOne({emailUser: req.body.emailUser}).then((user) => {
             if(user){
                 return res.send('Já existe alguem cadastrado com esse email.')
@@ -61,7 +63,7 @@ router.post('/registro', (req, res) => {
                     passUser: req.body.passUser,
                     registroUser: req.body.registroUser
                 })
-
+                //Gerando hash para a senha
                 const generateHash = async () => {
                     try {
                         const salt = await bcrypt.genSalt(10);
@@ -89,11 +91,14 @@ router.post('/registro', (req, res) => {
 router.put('/editarusuario/:id',  async (req, res) => {  
     try {
         let erros = [];
-
+        //Validando integridade dos campos
         if(!req.body.nomeUser || req.body.nomeUser == undefined || req.body.nomeUser == null){
             erros.push({erro: 'nome inválido!'})
         }
         if(!req.body.cpfUser || req.body.cpfUser == undefined || req.body.cpfUser == null){
+            erros.push({erro: 'cpf inválido!'})
+        }
+        if(req.body.cpfUser.length < 11 || req.body.cpfUser.length > 11){
             erros.push({erro: 'cpf inválido!'})
         }
         if(!req.body.cargoUser || req.body.cargoUser == undefined || req.body.cargoUser == null){
@@ -103,14 +108,14 @@ router.put('/editarusuario/:id',  async (req, res) => {
             erros.push({erro: 'email inválido!'})
         }
         if(!req.body.passUser || req.body.passUser == undefined || req.body.passUser == null){
-            erros.push({erro: 'senha inválido!'})
+            erros.push({erro: 'senha inválida!'})
         }
         if(req.body.passUser.length < 8){
-            erros.push({erro: 'senha muito curta'})
+            erros.push({erro: 'senha muito curta!'})
         }
 
         if(erros.length > 0){
-            res.send('Os dados inseridos apresentaram inconsistencia. Por favor, refaça o cadastro')
+            res.send('Os dados inseridos apresentaram inconsistencia.')
         }else{
             const id = parseInt(req.params.id);
 

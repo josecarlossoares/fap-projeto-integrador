@@ -1,13 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 const passport = require('passport')
-const  bcrypt = require('bcryptjs')
 const Projeto = require('../models/Projeto')
-const Usuario = require('../models/Usuario')
 const Indicadores = require('../utils/indicadores')
 
-//Main
+//Rota principal
 router.get('/', (req, res) => {
     res.send('Home')
 })
@@ -29,7 +26,6 @@ router.post('/login', (req, res, next) =>{
     }
 
 })
-
 //Logout
 router.get('/logout', (req, res, next) =>{
     req.logOut((err) => {
@@ -68,11 +64,11 @@ router.get('/projetos', async (req, res) => {
     
             listaComIndicadores.push(projeto);
         })
-    
-        //Total de projetos
-        //indicadores para projetos em andamento e concluidos
+        
         const dados = {
+            //Total de projetos
             totalProjetos: listaComIndicadores.length,
+            //indicadores para projetos em andamento e concluidos
             lista: listaComIndicadores
         }
         
@@ -128,11 +124,9 @@ router.get('/projetos/:id', async (req, res) => {
     
     //percentual de consumo do prazo (dias orçados vs. dias percorridos)
     //Percentual de horas orçadas x horas consumidas
-    
+
     //tipo de projeto, escopo ou alocação, integração com a Omie
 })
-
-
 
 
 //Rotas de consulta

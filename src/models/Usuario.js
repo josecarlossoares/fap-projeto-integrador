@@ -1,6 +1,8 @@
+//Importandd modulos
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+//Criando a classe modelo de usuarios
 const Usuario = new Schema({
 
         _id: {
@@ -8,7 +10,7 @@ const Usuario = new Schema({
         },
         cpfUser: {
           type: Number,
-          unique: true
+          unique: true // Garante que o email seja único
         },
         nomeUser: {
           type: String,
@@ -39,6 +41,5 @@ const Usuario = new Schema({
         }
     
 })
-
-
+//Exportando a model
 module.exports = mongoose.model('usuarios', Usuario);

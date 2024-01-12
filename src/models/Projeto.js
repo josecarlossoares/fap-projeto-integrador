@@ -1,61 +1,36 @@
+//Importando modulos
 const mongoose  = require('mongoose')
 const Schema = mongoose.Schema
 
+//Classe modelo para projetos
 const Projeto = new Schema({
-    _id: {type: Number, unique: true},
-    memberCount: { type: Number},
-    groupCount: { type: Number},
-    billableAmount: { type: Number},
-    billableCurrency: { type: String},
-    totalBudget: { type: Number},
-    spentBudget: { type: Number},
-    budgetCurrency: { type: String},
-    projectId: { type: Number},
-    projectName: { type: String},
-    projectCode: { type: String},
-    accountId: { type: Number},
-    projectStatus: { type: Number},
-    clientId: { type: Number},
+    _id: {type: Number, unique: true}, //ID do projeto, mongo
+    memberCount: { type: Number}, //Contagem de membro
+    groupCount: { type: Number}, //contagem de grupo
+    billableAmount: { type: Number}, //Valor faturável
+    billableCurrency: { type: String}, //Moeda faturável
+    totalBudget: { type: Number}, //orçamento total
+    spentBudget: { type: Number}, //orçamento gasto
+    budgetCurrency: { type: String}, //moeda do orçamento
+    projectId: { type: Number}, //ID do projeto, t metric
+    projectName: { type: String}, //Nome do Projeto
+    projectCode: { type: String}, //Código do projeto
+    accountId: { type: Number}, //ID da conta
+    projectStatus: { type: Number}, //status do projeto
+    clientId: { type: Number}, //ID do Cliente
     avatar: { type: String},
-    isBillable: { type: Boolean},
-    invoiceMethod: { type: Number},
-    budgetingMethod: { type: Number},
-    spentRatesType: { type: Number},
-    budgetSize: { type: Number},
-    overBudgetBehaviour: { type: Number},
-    budgetPeriod: { type: Number},
-    budgetAppliedDate: { type: String},
-    budgetAlertPercents: { type: Number},
+    isBillable: { type: Boolean}, //é faturável?
+    invoiceMethod: { type: Number}, //Método de fatura
+    budgetingMethod: { type: Number}, //Método de orçamento
+    spentRatesType: { type: Number}, //Tipo de taxas gastas
+    budgetSize: { type: Number}, //tamanho do orçamento
+    overBudgetBehaviour: { type: Number}, //sobre o comportamento orçamentário
+    budgetPeriod: { type: Number}, //Período de orçamento
+    budgetAppliedDate: { type: String}, //data de aplicação do orçamento
+    budgetAlertPercents: { type: Number}, //porcentagens de alerta de orçamento
     notes: { type: String},
-    projectFee: { type: Number},
-    projectFeePeriod: { type: Number}
+    projectFee: { type: Number}, //Taxa do projeto
+    projectFeePeriod: { type: Number} //Período de taxa do projeto
 })
-
+//Exportando a model
 module.exports = mongoose.model('projeto', Projeto);
- //ID do projeto
- //Contagem de membro
- //contagem de grupo
- //Valor faturável
- //Moeda faturável
- //orçamento total
- //orçamento gasto
- //moeda do orçamento
- //ID do projeto
- //Nome do Projeto
- //Código do projeto
- //ID da conta
- //status do projeto
- //ID do Cliente
- //avatar
- //é faturável
- //Método de fatura
- //Método de orçamento
- //Tipo de taxas gastas
- //tamanho do orçamento
- //sobre o comportamento orçamentário
- //Período de orçamento
- //data de aplicação do orçamento
- //porcentagens de alerta de orçamento
- //notas
- //Taxa do projeto
- //Período de taxa do projeto

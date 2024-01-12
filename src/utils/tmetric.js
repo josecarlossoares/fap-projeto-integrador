@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
+//Importando modulos
 const Projeto = require('../models/Projeto')
 
 module.exports = {
+    //Consumindo api do t metric
     projetosImport: async function (){
         const token = '5BBDE31796FFA303B07CBDB852360E82A4AB0FC2FB0D8C0BF71F6A87401329C1';
         const url = 'https://app.tmetric.com/api/accounts/226920/projects';
@@ -32,6 +33,7 @@ module.exports = {
                         })
                         
                     }else{
+                        //Salvando no banco de dados
                         const novoProjeto = new Projeto(project)
                         novoProjeto.save().then(() => {
                         console.log('Projeto Salvo');

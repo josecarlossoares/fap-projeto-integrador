@@ -1,8 +1,9 @@
+//Importando modulos
 const localStrategy = require('passport-local').Strategy
-const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const Usuario = require('../models/Usuario')
 
+//Função de validação e criação de sessão de usuario
 module.exports = function(passport){
 
     passport.use(new localStrategy({usernameField: 'emailUser', passwordField: 'passUser'}, (email, senha, done)  => {
@@ -11,7 +12,8 @@ module.exports = function(passport){
             if(!usuario){
                 return done(null, false, {message: 'essa conta não existe'})
             }
-
+            
+            //Comparando as senhas encriptadas
             bcrypt.compare(senha, usuario.passUser, (erro, batem) => {
                 if(batem){
                     return done(null, usuario)
@@ -22,16 +24,16 @@ module.exports = function(passport){
         })
     }))
 
+    //Criando a sessão
+    passport.serializeUser((usuario, done) => {
+        done(null, usuario._id)
+    })
 
-        passport.serializeUser((usuario, done) => {
-            done(null, usuario._id)
+    passport.deserializeUser((id, done) => {
+        Usuario.findById(id).then((usuario)=>{
+            done(null,usuario)
+        }).catch((err)=>{
+            done (null,false,{message:'algo deu errado'})
         })
-
-        passport.deserializeUser((id, done) => {
-            Usuario.findById(id).then((usuario)=>{
-                done(null,usuario)
-            }).catch((err)=>{
-                 done (null,false,{message:'algo deu errado'})
-            })
-        })
+    })
 }
