@@ -54,18 +54,19 @@ router.get('/projetos', async (req, res) => {
                 idProjeto: element.projectId,
                 statusProjeto: element.projectStatus,
                 notas: element.notes,
-                eFaturavel: element.isBillable
+                eFaturavel: element.isBillable,
+                dataOrcamento: element.budgetAppliedDate
     
             }
     
-            if(projeto.projectStatus == 1){
-                projeto.projectStatus = 'Projeto em andamento'
+            if(projeto.statusProjeto == 1){
+                projeto.statusProjeto = 'Projeto em andamento'
             }
-            if(projeto.projectStatus == 2){
-                projeto.projectStatus = 'Projeto concluído'
+            if(projeto.statusProjeto == 2){
+                projeto.statusProjeto = 'Projeto concluído'
             }
-            if(projeto.projectStatus == 3){
-                projeto.projectStatus = 'Projeto arquivado'
+            if(projeto.statusProjeto == 3){
+                projeto.statusProjeto = 'Projeto arquivado'
             }
     
             listaComIndicadores.push(projeto);
@@ -107,12 +108,13 @@ router.get('/projetos/:id', async (req, res) => {
             statusProjeto: projeto.projectStatus,
             notas: projeto.notes,
             eFaturavel: projeto.isBillable,
-            fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget)
+            fatorLucratividade: Indicadores.lucratividadeProjeto(projeto.billableAmount, projeto.totalBudget),
+            dataOrcamento: projeto.budgetAppliedDate
 
         }
         res.status(200).send(item);
     } catch (error) {
-        res.status(500).send('Erro ao buscar projeto');
+        res.status(500).send('Erro ao buscar projeto. ', error);
     }
 
     //fator de lucratividade do projeto, impacto na margem de lucratividade caso EM ATRASO

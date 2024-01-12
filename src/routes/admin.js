@@ -115,7 +115,7 @@ router.put('/editarusuario/:id',  async (req, res) => {
             const id = parseInt(req.params.id);
 
             const novosDadosUsuario = new Usuario({
-                _id: req.bodycpfUser,
+                _id: req.body.cpfUser,
                 cpfUser: req.bodycpfUser,
                 nomeUser: req.body.nomeUser,
                 tipoUser: req.body.tipoUser,
