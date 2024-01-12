@@ -118,8 +118,8 @@ router.get('/projetos/:id', async (req, res) => {
     //fator de lucratividade do projeto, impacto na margem de lucratividade caso EM ATRASO
     //consumo de tempo e custo em relação ao orçamento
     //percentual de consumo do prazo
-    //percentual de consumo do prazo (dias orçados vs. dias percorridos)
-    //Percentual de horas orçadas x horas consumidas
+        //percentual de consumo do prazo (dias orçados vs. dias percorridos)
+        //Percentual de horas orçadas x horas consumidas
     //tipo de  projeto, escopo ou alocação
 })
 
