@@ -30,7 +30,8 @@ const Projeto = new Schema({
     budgetAlertPercents: { type: Number}, //porcentagens de alerta de orçamento
     notes: { type: String},
     projectFee: { type: Number}, //Taxa do projeto
-    projectFeePeriod: { type: Number} //Período de taxa do projeto
+    projectFeePeriod: { type: Number}, //Período de taxa do projeto
+    tipoProjeto: { type: String } // Adicionando o campo tipoProjeto
 })
 //Exportando a model
 module.exports = mongoose.model('projeto', Projeto);

@@ -79,12 +79,48 @@ router.get('/projetos', async (req, res) => {
  
 })
 
-//Lista de projetos em atraso
-router.get('/projetosematraso', (req, res) => {
+// Lista de projetos em atraso
+router.get('/projetosematraso', async (req, res) => {
+    try {
+        const listaProjetos = await Projeto.find();
+        let projetosEmAtraso = [];
 
-    //total de projetos em atraso
-    //total de projetos
-})
+        const dataAtual = new Date();
+
+        listaProjetos.forEach((element) => {
+            const dataAplicacaoOrcamento = new Date(element.budgetAppliedDate);
+            if (dataAtual > dataAplicacaoOrcamento) {
+                const projeto = {
+                    nomeProjeto: element.projectName,
+                    idProjeto: element.projectId,
+                    statusProjeto: element.projectStatus,
+                    notas: element.notes,
+                    eFaturavel: element.isBillable,
+                    dataAplicacaoOrcamento: element.budgetAppliedDate
+                };
+
+                if (projeto.statusProjeto == 1) {
+                    projeto.statusProjeto = 'Projeto em andamento';
+                } else if (projeto.statusProjeto == 2) {
+                    projeto.statusProjeto = 'Projeto concluído';
+                } else if (projeto.statusProjeto == 3) {
+                    projeto.statusProjeto = 'Projeto arquivado';
+                }
+
+                projetosEmAtraso.push(projeto);
+            }
+        });
+
+        const dados = {
+            totalProjetosEmAtraso: projetosEmAtraso.length,
+            projetosEmAtraso: projetosEmAtraso
+        };
+        res.send(dados);
+    } catch (err) {
+        console.log('Erro: ', err);
+    }
+});
+
 
 //Projeto especifico
 router.get('/projetos/:id', async (req, res) => {
@@ -123,8 +159,65 @@ router.get('/projetos/:id', async (req, res) => {
     //tipo de projeto, escopo ou alocação, integração com a Omie
 })
 
-//Rotas de consulta
-    //Consultar entregas realizadas dentro do prazo
-    // Pesquisa de projetos com filtro de período, nome e tipo de projeto
+// Consultar entregas realizadas dentro do prazo
+router.get('/entregasdentrodoprazo', async (req, res) => {
+    try {
+        const listaProjetos = await Projeto.find();
+        let entregasNoPrazo = [];
+
+        const dataAtual = new Date();
+
+        listaProjetos.forEach((element) => {
+            const dataTerminoProjeto = new Date(element.budgetAppliedDate);
+
+            if (dataTerminoProjeto > dataAtual) {
+                entregasNoPrazo.push({
+                    nomeProjeto: element.projectName,
+                    idProjeto: element.projectId,
+                    dataTerminoProjeto: element.budgetAppliedDate
+                });
+            }
+        });
+
+        const dados = {
+            totalEntregasNoPrazo: entregasNoPrazo.length,
+            entregasNoPrazo: entregasNoPrazo
+        };
+
+        res.send(dados);
+    } catch (err) {
+        console.log('Erro: ', err);
+    }
+});
+
+// Pesquisa de projetos com filtro de período, nome e tipo de projeto
+router.get('/pesquisaprojetos', async (req, res) => {
+    try {
+        const { periodo, nomeProjeto, tipoProjeto } = req.query;
+
+        // Crie um objeto de filtro com base nos parâmetros fornecidos
+        const filtro = {};
+        if (periodo) {
+            filtro.dataTerminoProjeto = { $gte: new Date(periodo) };
+        }
+        if (nomeProjeto) {
+            filtro.nomeProjeto = { $regex: new RegExp(nomeProjeto, 'i') };
+        }
+        if (tipoProjeto) {
+            filtro.tipoProjeto = tipoProjeto; // Adapte conforme necessário
+        }
+
+        const listaProjetosFiltrados = await Projeto.find(filtro);
+
+        const dados = {
+            totalProjetosFiltrados: listaProjetosFiltrados.length,
+            projetosFiltrados: listaProjetosFiltrados
+        };
+
+        res.send(dados);
+    } catch (err) {
+        console.log('Erro: ', err);
+    }
+});
 
 module.exports = router;
