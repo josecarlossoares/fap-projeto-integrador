@@ -116,7 +116,7 @@ router.put('/editarusuario/:id',  async (req, res) => {
 
             const novosDadosUsuario = new Usuario({
                 _id: req.body.cpfUser,
-                cpfUser: req.bodycpfUser,
+                cpfUser: req.body.cpfUser,
                 nomeUser: req.body.nomeUser,
                 tipoUser: req.body.tipoUser,
                 cargoUser: req.body.cargoUser,
@@ -135,6 +135,9 @@ router.put('/editarusuario/:id',  async (req, res) => {
                 if(u){
                     console.log('Dados de usuario atualizados');
                     res.send(novosDadosUsuario);                                
+                }else{
+                    console.log('Usuario não encontrado');
+                    res.send('Erro ao rastrear usuario')
                 }
             })
         }  

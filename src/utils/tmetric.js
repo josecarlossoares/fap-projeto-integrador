@@ -20,9 +20,9 @@ module.exports = {
                 const project = new Projeto(element);
                 const projectId = project.projectId
                 project._id = projectId
-                project.budgetAppliedDate = '2024-01-11T13:35:39.239Z';
+                project.budgetAppliedDate = new Date('2024-01-08T13:35:39.239Z');
 
-                //validando a existencia de um projeto com msm id e atualizando o mesmo
+                //validando a existencia de um projeto e atualizando o mesmo
                 Projeto.findOne({ projectId }).then((projeto) =>  {
                     if(projeto){
                         Projeto.findByIdAndUpdate(projectId, project, { new: true }).then((p) => {

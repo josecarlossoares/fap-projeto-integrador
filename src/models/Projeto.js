@@ -31,7 +31,7 @@ const Projeto = new Schema({
     projectFeePeriod: { type: Number}
 })
 
-module.exports  = mongoose.model('projeto', Projeto);
+module.exports = mongoose.model('projeto', Projeto);
  //ID do projeto
  //Contagem de membro
  //contagem de grupo
@@ -52,7 +52,7 @@ module.exports  = mongoose.model('projeto', Projeto);
  //Método de orçamento
  //Tipo de taxas gastas
  //tamanho do orçamento
- // sobre o comportamento orçamentário
+ //sobre o comportamento orçamentário
  //Período de orçamento
  //data de aplicação do orçamento
  //porcentagens de alerta de orçamento
